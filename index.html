@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Edward Rose — Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-bg: #fafafa;
+            --color-text: #1a1a1a;
+            --color-text-muted: #666666;
+            --color-border: #e0e0e0;
+            --color-accent: #1a1a1a;
+            --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        a {
+            color: var(--color-text);
+            text-decoration: none;
+            border-bottom: 1px solid var(--color-text);
+            transition: opacity 0.2s ease;
+        }
+
+        a:hover {
+            opacity: 0.6;
+        }
+
+        header {
+            padding: 4rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 3rem;
+            align-items: start;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .profile-photo {
+            width: 200px;
+            height: 200px;
+            background-color: var(--color-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info h1 {
+            font-size: 2.5rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-size: 0.9375rem;
+        }
+
+        .contact-details span {
+            color: var(--color-text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .contact-item {
+            margin-bottom: 0.75rem;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .work-item {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .work-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .work-meta {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+        }
+
+        .work-meta .company {
+            color: var(--color-text);
+            font-weight: 500;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .work-content h3 {
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+
+        .work-content p {
+            color: var(--color-text-muted);
+            font-size: 0.9375rem;
+        }
+
+        .gallery-intro {
+            margin-bottom: 2rem;
+            color: var(--color-text-muted);
+            font-size: 0.9375rem;
+            max-width: 600px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .gallery-item {
+            aspect-ratio: 3 / 4;
+            background-color: var(--color-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-muted);
+            font-size: 0.625rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: opacity 0.2s ease;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            opacity: 0.8;
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        footer {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .profile-photo {
+                margin: 0 auto;
+                width: 150px;
+                height: 150px;
+            }
+
+            .profile-info h1 {
+                font-size: 2rem;
+            }
+
+            .work-item {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="profile-photo">
+            <img src="profile-photo.jpeg" alt="Edward Rose">
+        </div>
+        <div class="profile-info">
+            <h1>Edward Rose</h1>
+            <div class="contact-details">
+                <div class="contact-item">
+                    <span>Personal</span><br>
+                    <a>erose1478[at]gmail[dot]com</a>
+                </div>
+                <div class="contact-item">
+                    <span>Work</span><br>
+                    <a>eddy[dot]rose[at]dtisim[dot]com</a>
+                </div>
+                <div class="contact-item">
+                    <span>LinkedIn</span><br>
+                    <a href="https://www.linkedin.com/in/edward-rose-b858a418b/" target="_blank" rel="noopener">linkedin.com/in/edward-rose-b858a418b/</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="education">
+            <h2>Education</h2>
+
+            <article class="work-item">
+                <div class="work-meta">
+                    <span class="company">University of Chicago</span>
+                    2019 — 2023
+                </div>
+                <div class="work-content">
+                    <h3>B.S. in Computer Science, B.A. in Visual Arts</h3>
+                    <p>Specific focus in cryptography, networks and computer security. Oil painting focus in the visual arts.</p>
+                </div>
+            </article>
+
+        </section>
+
+        <section id="work">
+            <h2>Work Experience</h2>
+
+            <article class="work-item">
+                <div class="work-meta">
+                    <span class="company">Digital Twin Imaging</span>
+                    June 2023 — Present
+                </div>
+                <div class="work-content">
+                    <h3>VP of Product Development</h3>
+                    <p>Responsible for all research and development. Design, build, and maintain all software products.</p>
+                </div>
+            </article>
+
+            <article class="work-item">
+                <div class="work-meta">
+                    <span class="company">Yahoo!</span>
+                    June 2022 - September 2022
+                </div>
+                <div class="work-content">
+                    <h3>Technical Intern</h3>
+                    <p>Constructed a data pipeline for on-premises to cloud delivery along pre-existing legacy infrastructure.</p>
+                </div>
+            </article>
+        </section>
+
+        <section id="creative">
+            <h2>Creative Projects</h2>
+            <p class="gallery-intro">MODA, University of Chicago, 2023. Co-designed with Sebastian Martinez.</p>
+
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="fit-1.jpeg" alt="Fashion Fit 1">
+                </div>
+                <div class="gallery-item">
+                    <img src="fit-2.jpeg" alt="Fashion Fit 2">
+                </div>
+                <div class="gallery-item">
+                    <img src="fit-3.jpeg" alt="Fashion Fit 3">
+                </div>
+                <div class="gallery-item">
+                    <img src="fit-4.jpeg" alt="Fashion Fit 4">
+                </div>
+                <div class="gallery-item">
+                    <img src="fit-5.jpeg" alt="Fashion Fit 5">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 EDWARD ROSE</p>
+    </footer>
+
+    <div class="lightbox" id="lightbox">
+        <img src="" alt="Enlarged view">
+    </div>
+
+    <script>
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+
+        galleryItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const img = this.querySelector('img');
+                if (img) {
+                    lightboxImg.src = img.src;
+                    lightboxImg.alt = img.alt;
+                    lightbox.classList.add('active');
+                }
+            });
+        });
+
+        lightbox.addEventListener('click', function() {
+            this.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
